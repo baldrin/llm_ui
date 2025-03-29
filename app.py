@@ -347,6 +347,8 @@ if "uploaded_file_name" not in st.session_state:
     st.session_state.uploaded_file_name = None
 if "delete_request" not in st.session_state: # For handling delete clicks
      st.session_state.delete_request = None
+if "show_file_uploader" not in st.session_state:
+    st.session_state.show_file_uploader = False
 
 
 # --- Global Variables/Constants ---
@@ -434,6 +436,22 @@ with st.sidebar:
     )
     if not available_llms_list:
         st.error("No LLM clients are configured or available. Please check config.yaml.")
+
+    with st.form(key=f"chat_form_{st.session_state.current_chat_id}", clear_on_submit=True):
+        #attach_label = "📎" if not st.session_state.uploaded_file_name else "📄"
+        attach_label = " Attach Document " if not st.session_state.uploaded_file_name else f"{st.session_state.uploaded_file_name}"
+        attach_help = "Attach a file" if not st.session_state.uploaded_file_name else f"File attached: {st.session_state.uploaded_file_name}"
+
+        if st.form_submit_button(attach_label, help=attach_help, use_container_width=True, type="secondary"):
+            if st.session_state.uploaded_file_name:
+                # Clear attachment
+                st.session_state.uploaded_file_content = None
+                st.session_state.uploaded_file_name = None
+                st.toast("📎 Attachment removed.", icon="🗑️")
+            else:
+                # Toggle file uploader
+                st.session_state.show_file_uploader = not st.session_state.show_file_uploader
+            st.rerun()
 
     st.divider()
 
@@ -569,38 +587,38 @@ with chat_container:
 # Container for elements above the chat input
 input_controls_container = st.container()
 with input_controls_container:
-    # File Uploader (now less prominent)
-    uploaded_file = st.file_uploader(
-        "Attach File",
-        type=['txt', 'md', 'py', 'json', 'yaml', 'csv'],
-        key=f"file_uploader_{st.session_state.current_chat_id}", # Reset uploader when chat changes
-        help="Attach a text-based file (TXT, MD, PY, etc.). Content will be added to your next message.",
-        label_visibility="collapsed", # Hide the label, use placeholder/button text implicitly
-        on_change=None # We handle the file processing on prompt submit
-    )
-    if uploaded_file is not None:
-        # Store content immediately if a new file is uploaded
-        try:
-            st.session_state.uploaded_file_content = uploaded_file.read().decode("utf-8")
-            st.session_state.uploaded_file_name = uploaded_file.name
-            st.info(f"✅ File '{uploaded_file.name}' ready to send with your next message.", icon="📄")
-        except Exception as e:
-            st.error(f"Error reading file: {e}")
-            st.session_state.uploaded_file_content = None
-            st.session_state.uploaded_file_name = None
+    if st.session_state.show_file_uploader and not st.session_state.is_generating:
+        uploaded_file = st.file_uploader(
+            "Attach File",
+            type=['txt', 'md', 'py', 'json', 'yaml', 'csv'],
+            key=f"file_uploader_{st.session_state.current_chat_id}", # Reset uploader when chat changes
+            help="Attach a text-based file (TXT, MD, PY, etc.). Content will be added to your next message.",
+            label_visibility="collapsed", # Hide the label, use placeholder/button text implicitly
+            on_change=None # We handle the file processing on prompt submit
+        )
+
+        if uploaded_file is not None:
+            # Store content immediately if a new file is uploaded
+            try:
+                st.session_state.uploaded_file_content = uploaded_file.read().decode("utf-8")
+                st.session_state.uploaded_file_name = uploaded_file.name
+                st.info(f"✅ File '{uploaded_file.name}' ready to send with your next message.", icon="📄")
+                st.session_state.show_file_uploader = False
+                input_controls_container.empty()
+                #st.rerun()
+            except Exception as e:
+                st.error(f"Error reading file: {e}")
+                st.session_state.uploaded_file_content = None
+                st.session_state.uploaded_file_name = None
 
     # Conditional Stop Button
-    if st.session_state.is_generating:
-        # Use columns to place button somewhat aligned, adjust ratio if needed
-        # Or simply place it above the input
-        stop_col, _ = st.columns([1, 5]) # Button takes less space
-        with stop_col:
-             if st.button("⏹️ Stop", key="stop_button_main_input", help="Stop generating the response"):
-                 st.session_state.stop_streaming = True
-                 # Don't set is_generating=False here, the loop's finally block will handle it
-                 st.warning("Stopping generation...")
-                 # No rerun here, let the stream loop break naturally
-
+    #if st.session_state.is_generating:
+    #    stop_col, _ = st.columns([1, 5]) # Button takes less space
+    #    with stop_col:
+    #         if st.button("⏹️ Stop", key="stop_button_main_input", help="Stop generating the response"):
+    #             st.session_state.stop_streaming = True
+    #             st.warning("Stopping generation...")
+    
 # Chat Input Box - Use a key that changes with chat to ensure it resets properly
 prompt = st.chat_input(
     "Enter your message here...",
