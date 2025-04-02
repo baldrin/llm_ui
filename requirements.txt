@@ -1,5 +1,14 @@
 streamlit
 openai
 httpx
-pyyaml
-google-generativeai 
+langchain-text-splitters
+langchain-community
+langchain_chroma
+chromadb
+numpy
+markdown
+beautifulsoup4
+pandas
+matplotlib
+requests
+
