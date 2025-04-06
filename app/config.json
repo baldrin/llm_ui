@@ -1,0 +1,11 @@
+{
+    "base_url": "",
+    "databricks_certs": "",
+    "llm_auth_token": "",    
+    "llm_models": {
+        "Claude 3.7" : "databricks-claude-3-7-sonnet",
+        "Llama 70b" : "databricks-meta-llama-3-3-70b-instruct",
+        "Llama 8b" : "databricks-meta-llama-3-1-8b-instruct"
+    },
+    "embedding_model": "databricks-gte-large-en"
+}
