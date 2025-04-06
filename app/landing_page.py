@@ -1,5 +1,6 @@
 # landing_page_renderer.py
 import streamlit as st
+from config.app_configs import APP_CONFIGS  # Import the app configs
 
 def render_landing_page():
     """Render the landing page with properly sized cards and visible buttons"""
@@ -87,41 +88,25 @@ def render_landing_page():
     """, unsafe_allow_html=True)
     
     # Header
+    # Header
     st.markdown('<div class="main-header">Welcome to the Mosaic Platform</div>', unsafe_allow_html=True)
     st.markdown('<div class="app-description">Choose an application to get started with our AI-powered tools</div>', unsafe_allow_html=True)
     
     # Use a container div to center the cards
     st.markdown('<div class="app-container">', unsafe_allow_html=True)
     
-    # App cards
-    st.markdown("""
-    <div class="app-card">
-        <div class="app-icon">🧠</div>
-        <div class="app-title">Developer Assistant</div>
-        <div class="app-card-description">
-            General-purpose AI assistant for answering questions, generating content, and helping with various tasks.
+    # Dynamically generate app cards based on APP_CONFIGS
+    for app_id, app_config in APP_CONFIGS.items():
+        st.markdown(f"""
+        <div class="app-card">
+            <div class="app-icon">{app_config.get('icon', '🔹')}</div>
+            <div class="app-title">{app_config.get('title', 'App')}</div>
+            <div class="app-card-description">
+                {app_config.get('description', 'No description available.')}
+            </div>
+            <a href="?mode={app_id}" target="_self" class="app-button">Launch {app_config.get('title', 'App')}</a>
         </div>
-        <a href="?mode=assistant" target="_self" class="app-button">Launch Assistant</a>
-    </div>
-      
-    <div class="app-card">
-        <div class="app-icon">💬</div>
-        <div class="app-title">Executive Coach</div>
-        <div class="app-card-description">
-            AI-powered leadership coaching to help you develop your skills through thoughtful questions and guidance.
-        </div>
-        <a href="?mode=coach" target="_self" class="app-button">Launch Coach</a>
-    </div>
-                
-    <div class="app-card">
-        <div class="app-icon">📧</div>
-        <div class="app-title">Denial Letter Generator</div>
-        <div class="app-card-description">
-            Transforms complex medical notes into clear, patient-friendly letters written at a 6th grade reading level.
-        </div>
-        <a href="?mode=letter_generator" target="_self" class="app-button">Launch Letter Generator</a>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     
     # Close the container
     st.markdown('</div>', unsafe_allow_html=True)

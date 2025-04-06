@@ -36,12 +36,10 @@ if app_id is None:
     render_landing_page()
     st.stop()  # Stop execution here if we're showing the landing page
 
-#query_params = st.query_params
-#app_id = query_params.get("mode", [None][0])
 app_config = get_app_config(app_id)
 
 dynamic_title = app_config["title"]
-escape_title = html.escape(dynamic_title, quote="True")
+escape_title = html.escape(dynamic_title, quote=True)
 
 st.markdown(
     f"""
@@ -151,10 +149,6 @@ with col1:
 with col2:
     if st.button("⚙️", key="settings_toggle", help="Open Settings"):
         st.session_state.show_settings = not st.session_state.show_settings
-
-# Add a "Back to Apps" button
-#if st.button("← Back to Apps", key="back_to_apps"):
-#    st.rerun()
 
 # Render Settings Panel
 render_settings_panel(app_config=app_config)
