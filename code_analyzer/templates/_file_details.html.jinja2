@@ -1,0 +1,97 @@
+{# Jinja2 partial template for displaying details of a single file #}
+<article class="file-details" id="{{ file.id }}">
+    <header class="file-header">
+        <h3>{{ file.relative_path }}</h3>
+        <div class="file-meta">
+            <span><strong>Language:</strong> {{ file.language }}</span> |
+            <span><strong>Size:</strong> {{ "%.2f KB"|format(file.size / 1024) if file.size > 1024 else "%d Bytes"|format(file.size) }}</span> |
+            <span><strong>Lines:</strong> {{ file.line_count }}</span> |
+            <span><strong>Last Modified:</strong> {{ file.last_modified }}</span>
+        </div>
+    </header>
+
+    <div class="file-content-wrapper">
+        <button class="toggle-button" data-target="code-{{ file.id }}">Show Code View</button> {# Default text changed #}
+        <div class="code-container hidden" id="code-{{ file.id }}">
+            <h4>Source Code Preview (first {{ file.content_preview | length }} chars)</h4>
+            <pre><code class="language-{{ file.language.lower() if file.language != 'Unknown' and file.language != 'Text' else '' }}">{{ file.content_preview }}</code></pre>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h4>LLM Analysis</h4>
+        {% if file.llm_skipped %}
+            <div class="llm-skipped">
+                <p><strong>LLM Analysis Skipped:</strong> {{ file.llm_analysis.error if file.llm_analysis and file.llm_analysis.error else "Reason not specified (e.g., file size limit, --no-llm flag, or empty file)." }}</p>
+            </div>
+        {% elif file.llm_analysis and 'error' in file.llm_analysis %}
+            <div class="llm-error">
+                <p><strong>Error during LLM analysis:</strong> {{ file.llm_analysis.error }}</p>
+            </div>
+        {% elif file.llm_analysis %}
+            <div class="llm-summary">
+                <h5>Summary</h5>
+                {# Use the markdown filter and then mark as safe #}
+                <div class="markdown-content">{{ file.llm_analysis.summary | markdown | safe }}</div>
+            </div>
+            <div class="llm-key-elements">
+                <h5>Key Functions/Procedures</h5>
+                 {# Use the markdown filter and then mark as safe #}
+                <div class="markdown-content">{{ file.llm_analysis.key_elements | markdown | safe }}</div>
+            </div>
+            <div class="llm-issues">
+                <h5>Potential Issues & Legacy Constructs</h5>
+                 {# Use the markdown filter and then mark as safe #}
+                <div class="markdown-content">{{ file.llm_analysis.issues | markdown | safe }}</div>
+            </div>
+            <div class="llm-suggestions">
+                <h5>Modernization Suggestions</h5>
+                 {# Use the markdown filter and then mark as safe #}
+                <div class="markdown-content">{{ file.llm_analysis.suggestions | markdown | safe }}</div>
+            </div>
+             {# Optional: Show raw response for debugging - NO markdown filter here #}
+             {#
+             <button class="toggle-button" data-target="raw-llm-{{ file.id }}">Show Raw LLM Response</button>
+             <div class="raw-llm-response hidden" id="raw-llm-{{ file.id }}">
+                 <h5>Raw LLM Output</h5>
+                 <pre><code>{{ file.llm_analysis.raw_text }}</code></pre>
+             </div>
+             #}
+        {% else %}
+            <p>No LLM analysis data available for this file.</p>
+        {% endif %}
+    </div>
+</article>
+<hr class="file-separator">
+
+{# Optional: Add a wrapper div for better styling control #}
+<style>
+    .markdown-content p:last-child {
+        margin-bottom: 0; /* Avoid extra space at the end of paragraphs */
+    }
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 20px;
+        padding-left: 15px;
+    }
+    .markdown-content code { /* Style inline code */
+        background-color: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+    }
+    .markdown-content pre > code { /* Style code blocks differently if needed */
+         background-color: transparent; /* Override inline style if inside pre */
+         padding: 0;
+         font-size: inherit; /* Inherit from pre */
+    }
+     /* Ensure pre blocks within markdown content also get highlighted */
+    .markdown-content pre {
+        margin: 1em 0;
+        padding: 10px;
+        background-color: #f8f9fa; /* Match code preview style */
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+</style>

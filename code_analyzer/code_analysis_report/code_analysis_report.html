@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Analysis Report: weather_multi_agent</title>
+    <!-- Link local highlight.js CSS -->
+    <link rel="stylesheet" href="static/vendor/highlight/styles/github.min.css"> <!-- Choose your theme -->
+    <!-- Link local custom CSS -->
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Code Analysis Report: weather_multi_agent</h1>
+            <div class="metadata">
+                <p><strong>Analyzed Directory:</strong> /home/taters/Documents/Repos/weather_multi_agent</p>
+                <p><strong>Report Generated:</strong> 2025-04-22 16:18:42</p>
+                <p><strong>LLM Model Used:</strong> o4-mini-2025-04-16</p>
+                <p><strong>Total Files Found:</strong> 5</p>
+                <p><strong>Code Files Processed:</strong> 2</p>
+                <p><strong>Files Analyzed by LLM:</strong> 2 (Skipped: 0)</p>
+            </div>
+        </header>
+
+        
+        
+        <section class="project-summary">
+            <h2>Project Overview</h2>
+            <div class="markdown-content"> 
+                
+                <pre><code class="language-markdown"># Project Overview
+
+## 1. Overall Purpose
+This project implements an “LLM Auditor” framework that evaluates and refines large‐language‑model–generated answers using a two‑stage, critique‑and‑revise workflow. A “critic” sub‑agent first assesses responses (leveraging web search), and a “reviser” sub‑agent then improves them against real‑world knowledge.
+
+## 2. Technologies
+- Language: Python  
+- Framework: Google’s ADK (Agent Development Kit)  
+- LLM: `gemini-2.0-flash` (or similar large‑language models)  
+- Tooling: `google_search` integration  
+- Agent Composition: `SequentialAgent` abstraction  
+
+## 3. Scale &amp; Complexity
+- Very small codebase (5 files, ~79 total lines)  
+- Two core code modules: a top‑level orchestrator and one or more sub‑agents  
+- Lightweight logic focused on agent configuration and callback hooks  
+
+## 4. Structure &amp; Architecture
+- `sub_agents/` directory containing specialized agent definitions (e.g., critic)  
+- Root‑level `agent.py` that composes sub‑agents into a single `root_agent`  
+- Modular design: each agent in its own module, orchestrated sequentially  
+
+## 5. Potential Themes
+- Automated auditing of LLM outputs  
+- Modular “critic” and “reviser” pattern for iterative refinement  
+- Integration of external knowledge sources (web search)  
+- Use of callbacks to inspect and render reference information  
+
+*Note: All points above are inferred strictly from provided metadata and file summaries.*  
+</code></pre>
+            </div>
+        </section>
+        
+        
+
+        <main class="main-content">
+            <nav class="sidebar">
+                <h2>Directory Structure</h2>
+                <div id="directory-tree">
+                    
+                    <ul>
+                      
+                        <li class="directory">
+                            
+                                
+                                <span class="directory-name">weather_multi_agent/</span>
+                                
+                                <ul>
+                                    
+                                        
+                        <li class="directory">
+                            
+                                
+                                <span class="directory-name">sub_agents/</span>
+                                
+                                <ul>
+                                    
+                                        
+                        <li class="directory">
+                            
+                                
+                                <span class="directory-name">critic/</span>
+                                
+                                <ul>
+                                    
+                                        
+                        <li class="file">
+                            
+                                <a href="#file-3">__init__.py</a>
+                            
+                        </li>
+                    
+                                    
+                                        
+                        <li class="file">
+                            
+                                <a href="#file-4">agent.py</a>
+                            
+                        </li>
+                    
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                                    
+                                        
+                        <li class="file">
+                            
+                                <a href="#file-2">__init__.py</a>
+                            
+                        </li>
+                    
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                                    
+                                        
+                        <li class="file">
+                            
+                                <a href="#file-0">__init__.py</a>
+                            
+                        </li>
+                    
+                                    
+                                        
+                        <li class="file">
+                            
+                                <a href="#file-1">agent.py</a>
+                            
+                        </li>
+                    
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    </ul>
+                </div>
+            </nav>
+
+            <section class="content">
+                <h2>File Details</h2>
+                
+                    
+                        
+<article class="file-details" id="file-0">
+    <header class="file-header">
+        <h3>__init__.py</h3>
+        <div class="file-meta">
+            <span><strong>Language:</strong> Python</span> |
+            <span><strong>Size:</strong> 19 Bytes</span> |
+            <span><strong>Lines:</strong> 1</span> |
+            <span><strong>Last Modified:</strong> 2025-04-14 20:02:29</span>
+        </div>
+    </header>
+
+    <div class="file-content-wrapper">
+        <button class="toggle-button" data-target="code-file-0">Show Code View</button> 
+        <div class="code-container hidden" id="code-file-0">
+            <h4>Source Code Preview (first 19 chars)</h4>
+            <pre><code class="language-python">from . import agent</code></pre>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h4>LLM Analysis</h4>
+        
+            <p>No LLM analysis data available for this file.</p>
+        
+    </div>
+</article>
+<hr class="file-separator">
+
+
+<style>
+    .markdown-content p:last-child {
+        margin-bottom: 0; /* Avoid extra space at the end of paragraphs */
+    }
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 20px;
+        padding-left: 15px;
+    }
+    .markdown-content code { /* Style inline code */
+        background-color: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+    }
+    .markdown-content pre > code { /* Style code blocks differently if needed */
+         background-color: transparent; /* Override inline style if inside pre */
+         padding: 0;
+         font-size: inherit; /* Inherit from pre */
+    }
+     /* Ensure pre blocks within markdown content also get highlighted */
+    .markdown-content pre {
+        margin: 1em 0;
+        padding: 10px;
+        background-color: #f8f9fa; /* Match code preview style */
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+</style>
+                    
+                        
+<article class="file-details" id="file-1">
+    <header class="file-header">
+        <h3>agent.py</h3>
+        <div class="file-meta">
+            <span><strong>Language:</strong> Python</span> |
+            <span><strong>Size:</strong> 550 Bytes</span> |
+            <span><strong>Lines:</strong> 19</span> |
+            <span><strong>Last Modified:</strong> 2025-04-14 20:15:49</span>
+        </div>
+    </header>
+
+    <div class="file-content-wrapper">
+        <button class="toggle-button" data-target="code-file-1">Show Code View</button> 
+        <div class="code-container hidden" id="code-file-1">
+            <h4>Source Code Preview (first 550 chars)</h4>
+            <pre><code class="language-python">"""LLM Auditor for verifying & refining LLM-generated answers using the web."""
+
+from google.adk.agents import SequentialAgent
+
+from .sub_agents.critic import critic_agent
+from .sub_agents.reviser import reviser_agent
+
+
+llm_auditor = SequentialAgent(
+    name='llm_auditor',
+    description=(
+        'Evaluates LLM-generated answers, verifies actual accuracy using the'
+        ' web, and refines the response to ensure alignment with real-world'
+        ' knowledge.'
+    ),
+    sub_agents=[critic_agent, reviser_agent],
+)
+
+root_agent = llm_auditor</code></pre>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h4>LLM Analysis</h4>
+        
+            <div class="llm-summary">
+                <h5>Summary</h5>
+                
+                <div class="markdown-content"><p>This file defines a top‑level “LLM Auditor” agent by composing two smaller sub‑agents (a critic and a reviser). It uses the <code>SequentialAgent</code> class from a Google ADK to evaluate and then refine LLM‑generated answers against real‑world web knowledge. Finally, it exposes the composed agent as <code>root_agent</code> for downstream import or execution.</p></div>
+            </div>
+            <div class="llm-key-elements">
+                <h5>Key Functions/Procedures</h5>
+                 
+                <div class="markdown-content"><p>There are no standalone functions or methods in this file—its sole purpose is declarative:<br />
+- Instantiates a <code>SequentialAgent</code> named <code>llm_auditor</code>, supplying:<br />
+  - <code>name</code>: an identifier string<br />
+  - <code>description</code>: a summary of its role<br />
+  - <code>sub_agents</code>: a list containing two imported agents, <code>critic_agent</code> and <code>reviser_agent</code><br />
+- Aliases <code>llm_auditor</code> to <code>root_agent</code> for external reference</p></div>
+            </div>
+            <div class="llm-issues">
+                <h5>Potential Issues & Legacy Constructs</h5>
+                 
+                <div class="markdown-content"><ul>
+<li><strong>Tight Coupling &amp; Hardcoding</strong>  </li>
+<li>Agent names, descriptions, and sub‑agent lists are hardcoded rather than configurable.</li>
+<li><strong>Lack of Error Handling</strong>  </li>
+<li>No validation of imported sub‑agents or fallback logic if one fails.</li>
+<li><strong>Module Import Risks</strong>  </li>
+<li>Relative imports (<code>.sub_agents.critic</code>) may break if the package structure changes.</li>
+<li><strong>Undocumented Dependencies</strong>  </li>
+<li>Relies on <code>google.adk.agents</code> without version pinning or checks; potential for API drift.</li>
+<li><strong>No Logging or Metrics</strong>  </li>
+<li>No visibility into sub‑agent execution steps or failures.</li>
+<li><strong>No Type Annotations or Docstrings</strong>  </li>
+<li>Decreases clarity for maintainers and tools (e.g., linters, IDEs).</li>
+</ul></div>
+            </div>
+            <div class="llm-suggestions">
+                <h5>Modernization Suggestions</h5>
+                 
+                <div class="markdown-content"><ul>
+<li><strong>Configuration Externalization</strong>  </li>
+<li>Move agent metadata (names, descriptions, sub‑agent list) into a YAML/JSON file or environment variables.</li>
+<li><strong>Factory/Registry Pattern</strong>  </li>
+<li>Implement an agent factory or registry to dynamically compose agents, improving extensibility and testability.</li>
+<li><strong>Error Handling &amp; Resilience</strong>  </li>
+<li>Wrap sub‑agent invocation in try/except, log failures, and implement retry or fallback strategies.</li>
+<li><strong>Type Hints &amp; Docstrings</strong>  </li>
+<li>Add Python type annotations and module‑level docstrings to improve readability and tool support.</li>
+<li><strong>Dependency Management</strong>  </li>
+<li>Pin <code>google.adk.agents</code> to a known‑good version and document installation requirements.</li>
+<li><strong>Testing</strong>  </li>
+<li>Create unit/integration tests that mock web calls and verify the sequential logic of critic → reviser.</li>
+<li><strong>Observability</strong>  </li>
+<li>Integrate structured logging or a metrics system to trace agent performance and errors.</li>
+<li><strong>Microservice Wrapping (Optional)</strong>  </li>
+<li>Expose the auditor as a REST or gRPC service for language‑agnostic clients and easier scaling.</li>
+</ul></div>
+            </div>
+             
+             
+        
+    </div>
+</article>
+<hr class="file-separator">
+
+
+<style>
+    .markdown-content p:last-child {
+        margin-bottom: 0; /* Avoid extra space at the end of paragraphs */
+    }
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 20px;
+        padding-left: 15px;
+    }
+    .markdown-content code { /* Style inline code */
+        background-color: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+    }
+    .markdown-content pre > code { /* Style code blocks differently if needed */
+         background-color: transparent; /* Override inline style if inside pre */
+         padding: 0;
+         font-size: inherit; /* Inherit from pre */
+    }
+     /* Ensure pre blocks within markdown content also get highlighted */
+    .markdown-content pre {
+        margin: 1em 0;
+        padding: 10px;
+        background-color: #f8f9fa; /* Match code preview style */
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+</style>
+                    
+                        
+<article class="file-details" id="file-2">
+    <header class="file-header">
+        <h3>sub_agents/__init__.py</h3>
+        <div class="file-meta">
+            <span><strong>Language:</strong> Python</span> |
+            <span><strong>Size:</strong> 0 Bytes</span> |
+            <span><strong>Lines:</strong> 0</span> |
+            <span><strong>Last Modified:</strong> 2025-04-14 20:16:30</span>
+        </div>
+    </header>
+
+    <div class="file-content-wrapper">
+        <button class="toggle-button" data-target="code-file-2">Show Code View</button> 
+        <div class="code-container hidden" id="code-file-2">
+            <h4>Source Code Preview (first 0 chars)</h4>
+            <pre><code class="language-python"></code></pre>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h4>LLM Analysis</h4>
+        
+            <p>No LLM analysis data available for this file.</p>
+        
+    </div>
+</article>
+<hr class="file-separator">
+
+
+<style>
+    .markdown-content p:last-child {
+        margin-bottom: 0; /* Avoid extra space at the end of paragraphs */
+    }
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 20px;
+        padding-left: 15px;
+    }
+    .markdown-content code { /* Style inline code */
+        background-color: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+    }
+    .markdown-content pre > code { /* Style code blocks differently if needed */
+         background-color: transparent; /* Override inline style if inside pre */
+         padding: 0;
+         font-size: inherit; /* Inherit from pre */
+    }
+     /* Ensure pre blocks within markdown content also get highlighted */
+    .markdown-content pre {
+        margin: 1em 0;
+        padding: 10px;
+        background-color: #f8f9fa; /* Match code preview style */
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+</style>
+                    
+                        
+<article class="file-details" id="file-3">
+    <header class="file-header">
+        <h3>sub_agents/critic/__init__.py</h3>
+        <div class="file-meta">
+            <span><strong>Language:</strong> Python</span> |
+            <span><strong>Size:</strong> 112 Bytes</span> |
+            <span><strong>Lines:</strong> 3</span> |
+            <span><strong>Last Modified:</strong> 2025-04-14 20:18:15</span>
+        </div>
+    </header>
+
+    <div class="file-content-wrapper">
+        <button class="toggle-button" data-target="code-file-3">Show Code View</button> 
+        <div class="code-container hidden" id="code-file-3">
+            <h4>Source Code Preview (first 112 chars)</h4>
+            <pre><code class="language-python">"""Critic agent for identifying and verifying statements using search tools."""
+
+from .agent import critic_agent</code></pre>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h4>LLM Analysis</h4>
+        
+            <p>No LLM analysis data available for this file.</p>
+        
+    </div>
+</article>
+<hr class="file-separator">
+
+
+<style>
+    .markdown-content p:last-child {
+        margin-bottom: 0; /* Avoid extra space at the end of paragraphs */
+    }
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 20px;
+        padding-left: 15px;
+    }
+    .markdown-content code { /* Style inline code */
+        background-color: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+    }
+    .markdown-content pre > code { /* Style code blocks differently if needed */
+         background-color: transparent; /* Override inline style if inside pre */
+         padding: 0;
+         font-size: inherit; /* Inherit from pre */
+    }
+     /* Ensure pre blocks within markdown content also get highlighted */
+    .markdown-content pre {
+        margin: 1em 0;
+        padding: 10px;
+        background-color: #f8f9fa; /* Match code preview style */
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+</style>
+                    
+                        
+<article class="file-details" id="file-4">
+    <header class="file-header">
+        <h3>sub_agents/critic/agent.py</h3>
+        <div class="file-meta">
+            <span><strong>Language:</strong> Python</span> |
+            <span><strong>Size:</strong> 1.86 KB</span> |
+            <span><strong>Lines:</strong> 56</span> |
+            <span><strong>Last Modified:</strong> 2025-04-15 08:53:12</span>
+        </div>
+    </header>
+
+    <div class="file-content-wrapper">
+        <button class="toggle-button" data-target="code-file-4">Show Code View</button> 
+        <div class="code-container hidden" id="code-file-4">
+            <h4>Source Code Preview (first 1902 chars)</h4>
+            <pre><code class="language-python">
+"""Critic agent for identifying and verifying statements using search tools."""
+
+from google.adk import Agent
+from google.adk.agents.callback_context import CallbackContext
+from google.adk.models import LlmResponse
+from google.adk.tools import google_search
+from google.genai import types
+
+from . import prompt
+
+
+def _render_reference(
+    callback_context: CallbackContext,
+    llm_response: LlmResponse,
+) -> LlmResponse:
+    """Appends grounding references to the response."""
+    del callback_context
+    if (
+        not llm_response.content or
+        not llm_response.content.parts or
+        not llm_response.grounding_metadata
+    ):
+        return llm_response
+    references = []
+    for chunk in llm_response.grounding_metadata.grounding_chunks or []:
+        title, uri, text = '', '', ''
+        if chunk.retrieved_context:
+            title = chunk.retrieved_context.title
+            uri = chunk.retrieved_context.uri
+            text = chunk.retrieved_context.text
+        elif chunk.web:
+            title = chunk.web.title
+            uri = chunk.web.uri
+        parts = [s for s in (title, text) if s]
+        if uri and parts:
+            parts[0] = f'[{parts[0]}]({uri})'
+        if parts:
+            references.append('* ' + ': '.join(parts) + '\n')
+    if references:
+        reference_text = ''.join(['\n\nReference:\n\n'] + references)
+        llm_response.content.parts.append(types.Part(text=reference_text))
+    if all(part.text is not None for part in llm_response.content.parts):
+        all_text = '\n'.join(part.text for part in llm_response.content.parts)
+        llm_response.content.parts[0].text = all_text
+        del llm_response.content.parts[1:]
+    return llm_response
+
+
+critic_agent = Agent(
+    model='gemini-2.0-flash',
+    name='critic_agent',
+    instruction=prompt.CRITIC_PROMPT,
+    tools=[google_search],
+    after_model_callback=_render_reference,
+)</code></pre>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <h4>LLM Analysis</h4>
+        
+            <div class="llm-summary">
+                <h5>Summary</h5>
+                
+                <div class="markdown-content"><p>This module defines a “critic” agent built on Google’s ADK (Agent Development Kit). It configures an <code>Agent</code> instance named <code>critic_agent</code> that uses a large‑language model (<code>gemini-2.0-flash</code>) and the <code>google_search</code> tool. After the model generates a response, a callback (<code>_render_reference</code>) inspects any grounding metadata and appends human‑readable references (titles, URIs, excerpts) into the LLM’s output.</p></div>
+            </div>
+            <div class="llm-key-elements">
+                <h5>Key Functions/Procedures</h5>
+                 
+                <div class="markdown-content"><ul>
+<li>
+<p><strong>_render_reference(callback_context, llm_response) → LlmResponse</strong><br />
+  • Invoked after the LLM produces a response.<br />
+  • Checks for grounding metadata (<code>grounding_chunks</code>).<br />
+  • Extracts titles, URIs, and text excerpts from each chunk.<br />
+  • Formats them as Markdown links and appends them under a “Reference” section.<br />
+  • Merges all parts back into a single text part for simple downstream usage.  </p>
+</li>
+<li>
+<p><strong>critic_agent = Agent(...)</strong><br />
+  Instantiates and exports the configured critic agent with:</p>
+</li>
+<li><code>model</code>: <code>"gemini-2.0-flash"</code></li>
+<li><code>instruction</code>: custom prompt from <code>prompt.CRITIC_PROMPT</code></li>
+<li><code>tools</code>: <code>[google_search]</code></li>
+<li><code>after_model_callback</code>: <code>_render_reference</code></li>
+</ul></div>
+            </div>
+            <div class="llm-issues">
+                <h5>Potential Issues & Legacy Constructs</h5>
+                 
+                <div class="markdown-content"><ul>
+<li><strong>Tight Coupling &amp; Mutation</strong>  </li>
+<li><code>_render_reference</code> mutates the incoming <code>llm_response</code> in-place (adds/removes parts).  </li>
+<li>No deep copy means side‑effects might propagate unexpectedly.</li>
+<li><strong>Error Handling &amp; Validation</strong>  </li>
+<li>No try/except around metadata access. Bad or malformed chunks could raise attribute errors.  </li>
+<li>Silently drops unexpected/missing fields.</li>
+<li><strong>Hardcoded Values</strong>  </li>
+<li>Model name (<code>gemini-2.0-flash</code>) and tool list are hardcoded.  </li>
+<li>Could be moved to config or environment variables.</li>
+<li><strong>Potential Performance / Complexity</strong>  </li>
+<li>Rebuilding and rejoining all parts on every callback may become costly for large responses.  </li>
+<li>The logic around deleting parts is non‑obvious and could conceal bugs.</li>
+<li><strong>Legacy Imports</strong>  </li>
+<li>Uses <code>google.adk</code>, a relatively new toolkit (depending on your org, this may or may not be “legacy,” but verify you’re on the latest package).</li>
+<li><strong>Lack of Logging</strong>  </li>
+<li>No diagnostics if grounding metadata is dropped or malformed.</li>
+</ul></div>
+            </div>
+            <div class="llm-suggestions">
+                <h5>Modernization Suggestions</h5>
+                 
+                <div class="markdown-content"><ul>
+<li><strong>Configuration Driven</strong>  </li>
+<li>Move model name, prompt, and tool list into a YAML/JSON or environment variables to allow swapping without code changes.</li>
+<li><strong>Refactor Callback</strong>  </li>
+<li>Return a new <code>LlmResponse</code> or use an immutable pattern to avoid in‑place mutation and make testing easier.  </li>
+<li>Extract helper functions: e.g., <code>format_chunk()</code> for clarity.</li>
+<li><strong>Robust Error Handling &amp; Logging</strong>  </li>
+<li>Wrap metadata extraction in try/except and log warnings on failures.  </li>
+<li>Validate that <code>grounding_metadata</code> conforms to expected schema.</li>
+<li><strong>Improve Testability</strong>  </li>
+<li>Write unit tests for <code>_render_reference</code> covering cases: no metadata, only web chunks, only retrieved_context, mixed, invalid data.</li>
+<li><strong>Adopt Design Patterns</strong>  </li>
+<li>Use the Strategy pattern for different reference‑renderers (e.g., HTML vs. Markdown).  </li>
+<li>Consider dependency‑injecting the search tool and renderer to decouple concerns.</li>
+<li><strong>Consider a Microservice/API</strong>  </li>
+<li>If multiple agents share similar callback logic, expose this rendering as an HTTP microservice or internal library.  </li>
+<li>That way, other agents can delegate rendering rather than copy‑pasting.</li>
+</ul></div>
+            </div>
+             
+             
+        
+    </div>
+</article>
+<hr class="file-separator">
+
+
+<style>
+    .markdown-content p:last-child {
+        margin-bottom: 0; /* Avoid extra space at the end of paragraphs */
+    }
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 20px;
+        padding-left: 15px;
+    }
+    .markdown-content code { /* Style inline code */
+        background-color: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+    }
+    .markdown-content pre > code { /* Style code blocks differently if needed */
+         background-color: transparent; /* Override inline style if inside pre */
+         padding: 0;
+         font-size: inherit; /* Inherit from pre */
+    }
+     /* Ensure pre blocks within markdown content also get highlighted */
+    .markdown-content pre {
+        margin: 1em 0;
+        padding: 10px;
+        background-color: #f8f9fa; /* Match code preview style */
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+</style>
+                    
+                
+            </section>
+        </main>
+
+        <footer>
+            <p>Generated by Code Analyzer Tool</p>
+        </footer>
+    </div>
+
+    <!-- Include local highlight.js script -->
+    <script src="static/vendor/highlight/highlight.min.js"></script>
+    <!-- Include local custom JS -->
+    <script src="static/js/main.js"></script>
+    <script>
+        // Initialize syntax highlighting after page load
+        hljs.highlightAll();
+
+        // Initialize directory tree interactivity
+        // initializeTree();
+
+        // Add smooth scrolling for internal links and active state management
+        setupNavigation();
+    </script>
+</body>
+</html>
