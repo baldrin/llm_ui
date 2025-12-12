@@ -1,0 +1,87 @@
+# =============================================================================
+# Development Environment Configuration
+# =============================================================================
+# This file contains ONLY settings specific to the development environment.
+# All other settings are inherited from config.toml
+# =============================================================================
+
+[environment]
+name = "development"
+database_enabled = true
+logging_enabled = true
+
+[app]
+max_attachment_tokens = 100000
+max_payload_size_mb = 3.5
+max_file_size_mb = 3
+max_pdf_pages = 20
+
+[databricks]
+base_url = "https://<URL>/serving-endpoints"
+token = "token"
+certs_path = "certs/databricks_certs.txt"
+warehouse_id = "warehouse_id"
+host = "https://<URL>"
+server_hostname = "<URL>"
+http_path = "/sql/1.0/warehouses/warehouse_id"
+
+[database]
+catalog = "bwallace"
+schema = "developer_assistant"
+
+[database.connection]
+pool_size = 6
+max_concurrent = 10
+retry_attempts = 3
+retry_min_wait = 2
+retry_max_wait = 10
+
+# Health check configuration
+health_check_mode = "background"                      # "background" or "disabled"
+health_check_threshold = 0.5                          # Recreate if pool drops below 50%
+health_check_interval_seconds = 300                   # Check pool health every 5 minutes
+health_check_max_failures = 3                         # Stop recreation after N consecutive failures
+health_monitor_startup_delay_seconds = 20             # Delay before first health check
+
+# Connection validation
+validation_threshold = 120                          # Validate connections idle > 120 seconds (2 minutes)
+max_age = 600                                       # Maximum connection age (10 minutes in dev for testing)
+
+# Cleanup
+cleanup_timeout_seconds = 5                           # Timeout for graceful shutdown
+
+[llm]
+context_window_size = 200000
+max_tokens = 8192
+temperature = 0.3
+
+
+[[llm.llm_models]]
+name = "Claude Sonnet 4.5"
+id = "databricks-claude-sonnet-4-5"
+
+[[llm.llm_models]]
+name = "Claude Sonnet 4"
+id = "databricks-claude-sonnet-4"
+
+[title_generation]
+enabled = true
+model = "databricks-claude-3-7-sonnet"
+#model = "databricks-meta-llama-3-3-70b-instruct"
+max_tokens = 10
+temperature = 0.3
+title_generation_prompt_file = "title_generation_prompt.md"
+
+[user]
+name = "dev_user"
+email = "dev_user@testing.com"
+id = "12345678"
+
+[debug]
+debug_enabled = false
+show_sidebar_debug = false
+
+[logging]
+log_level = "DEBUG"
+use_json_format = false           # Use readable format by default
+use_colors = true                 # Disable colors by default (for hosted environments)

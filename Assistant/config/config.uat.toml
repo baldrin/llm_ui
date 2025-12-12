@@ -1,0 +1,100 @@
+# =============================================================================
+# UAT Environment Configuration
+# =============================================================================
+# This file contains settings specific to the UAT environment.
+# All other settings are inherited from config.toml
+# =============================================================================
+
+[environment]
+name = "uat"
+database_enabled = true
+logging_enabled = true
+
+[app]
+# Slightly more restrictive than dev, but still generous for testing
+max_attachment_tokens = 75000
+max_payload_size_mb = 3.5
+max_file_size_mb = 3
+max_pdf_pages = 20
+preload_recent_chats = 3
+create_fresh_chat_on_visit = true
+fresh_chat_cleanup_hours = 2
+
+[databricks]
+base_url = "https://<URL>/serving-endpoints"
+token = "token"
+certs_path = "certs/databricks_certs.txt"
+warehouse_id = "warehouse_id"
+host = "https://<URL>"
+server_hostname = "<URL>"
+http_path = "/sql/1.0/warehouses/warehouse_id"
+
+[database]
+catalog = "ai_solutions_development"
+schema = "dev_assist_pilot"
+
+[database.connection]
+pool_size = 10
+max_concurrent = 15
+retry_attempts = 3
+retry_min_wait = 2
+retry_max_wait = 10
+
+# Health check configuration - more frequent than prod, less than dev
+health_check_mode = "background"
+health_check_threshold = 0.5
+health_check_interval_seconds = 180  # Every 3 minutes
+health_check_max_failures = 3
+health_monitor_startup_delay_seconds = 30
+
+# Connection validation
+validation_threshold = 180  # 3 minutes idle before validation
+max_age = 1800  # 15 minutes max connection age
+
+# Cleanup
+cleanup_timeout_seconds = 8
+
+[llm]
+context_window_size = 100000
+max_tokens = 8096
+temperature = 0.3
+
+# Multiple models for testing
+[[llm.llm_models]]
+name = "Claude Sonnet 4.5"
+id = "databricks-claude-sonnet-4-5"
+
+[[llm.llm_models]]
+name = "Claude Sonnet 4"
+id = "databricks-claude-sonnet-4"
+
+[title_generation]
+enabled = true
+model = "databricks-claude-3-7-sonnet"
+max_tokens = 10
+temperature = 0.3
+title_generation_prompt_file = "title_generation_prompt.md"
+
+[user]
+name = "UAT User"
+email = "uat@noreply.com"
+id = "test-user-id"
+
+[debug]
+# Limited debug info in UAT
+debug_enabled = false
+show_sidebar_debug = false
+
+[logging]
+# More verbose than production, but structured
+log_level = "DEBUG"
+use_json_format = true  # Structured logging for log aggregation
+use_colors = false  # No colors in hosted environment
+
+[performance]
+enabled = true
+slow_query_threshold_seconds = 2  # Slightly more lenient than prod
+log_all_queries = false
+
+[ui]
+show_error_details = false  # Don't show internal errors to UAT users

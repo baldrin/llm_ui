@@ -1,0 +1,23 @@
+# .streamlit/config.toml
+# Streamlit-specific configuration
+
+[browser]
+gatherUsageStats = false
+
+[client]
+showErrorDetails = false
+toolbarMode = "minimal"
+
+[server]
+# Uncomment if you want to set a specific port
+# port = 8501
+# headless = true
+maxUploadSize = 3
+
+[theme]
+# Optional: Customize your theme
+# primaryColor = "#1e73be"
+# backgroundColor = "#ffffff"
+# secondaryBackgroundColor = "#f0f2f6"
+# textColor = "#262730"
+# font = "sans serif"

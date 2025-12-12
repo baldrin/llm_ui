@@ -1,0 +1,196 @@
+# =============================================================================
+# Developer Assistant - Shared Configuration
+# =============================================================================
+# This file contains settings that are SHARED across all environments.
+# Environment-specific files (config.development.toml, config.test.toml, etc.)
+# will override these settings as needed.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Application Settings
+# -----------------------------------------------------------------------------
+[app]
+title = "ABCBS Developer Assistant"
+page_title = "ABCBS Developer Assistant"
+icon = "assets/logo.svg"
+description = "AI-powered assistant for developers and technical staff"
+create_fresh_chat_on_visit = true  # Set to false to disable
+fresh_chat_cleanup_hours = 1  # Clean up empty chats older than N hours
+preload_recent_chats = 4  # Pre-load top 3 chats (0 = disabled)
+max_initial_messages = 6
+
+# Chat settings
+default_chat_title = "New Chat"
+chat_input_placeholder = "Type your message here..."
+max_recent_chats = 8
+
+# File upload limits
+max_attachment_tokens = 50000
+max_payload_size_mb = 3.5
+max_file_size_mb = 3
+max_pdf_pages = 20
+
+# -----------------------------------------------------------------------------
+# UI Settings
+# -----------------------------------------------------------------------------
+[ui]
+theme = "light"
+sidebar_width = 400
+hide_streamlit_menu = true
+show_error_details = false
+toolbar_mode = "minimal"
+
+# -----------------------------------------------------------------------------
+# Database Settings
+# -----------------------------------------------------------------------------
+[database]
+# Note: catalog and schema come from environment-specific config files
+conversations_table = "conversations"
+messages_table = "chat_messages"
+activity_log_table = "chat_activity_log"
+
+[database.connection]
+pool_size = 10
+max_concurrent = 15
+retry_attempts = 3
+retry_min_wait = 2
+retry_max_wait = 10
+connect_timeout = 30
+socket_timeout = 60
+
+# Health check configuration
+health_check_mode = "background"                      # "background" or "disabled"
+health_check_threshold = 0.5                          # Recreate if pool drops below 50%
+health_check_interval_seconds = 30                    # Check pool health every 30 seconds
+health_check_max_failures = 3                         # Stop recreation after N consecutive failures
+health_monitor_startup_delay_seconds = 20             # Delay before first health check
+
+# Connection validation
+validation_threshold = 300                            # Validate connections idle > 600 seconds (10 minutes)
+max_age = 600 # 3600                                  # Maximum connection age (1 hour)
+
+# Cleanup
+cleanup_timeout_seconds = 5                           # Timeout for graceful shutdown
+
+# -----------------------------------------------------------------------------
+# Retry Configuration
+# -----------------------------------------------------------------------------
+[database.retry]
+max_attempts = 3
+min_wait_seconds = 1
+max_wait_seconds = 5
+description = "Retry settings for database operations"
+
+# -----------------------------------------------------------------------------
+# Timeout Configuration
+# -----------------------------------------------------------------------------
+[database.timeouts]
+cleanup_timeout_seconds = 10
+worker_check_interval_seconds = 1.0
+description = "Timeout settings for async operations and cleanup"
+
+# -----------------------------------------------------------------------------
+# Performance Monitoring Settings
+# -----------------------------------------------------------------------------
+[performance]
+enabled = true
+slow_query_threshold_seconds = 1
+log_all_queries = false
+track_queue_depth = true
+alert_queue_threshold = 100
+
+# -----------------------------------------------------------------------------
+# Logging Settings
+# -----------------------------------------------------------------------------
+[logging]
+queue_strategy = "ordered_queue"
+suppress_noisy_loggers = [
+    "databricks.sql.auth", 
+    "databricks.sql.client",
+    "databricks.sql.thrift_backend",
+    "openai",
+    "urllib3",
+    "httpx",
+    "httpcore",
+    "watchdog"
+]
+log_level = "WARNING"
+use_json_format = true            # Use readable format by default
+use_colors = false                # Disable colors by default (for hosted environments)
+
+# -----------------------------------------------------------------------------
+# Debug Settings
+# -----------------------------------------------------------------------------
+[debug]
+debug_enabled = false
+show_sidebar_debug = false
+
+# -----------------------------------------------------------------------------
+# LLM Configs
+# -----------------------------------------------------------------------------
+[llm]
+# LLM settings
+context_window_size = 100000
+max_tokens = 4096
+temperature = 0.3
+# Temperature: Controls response randomness/creativity
+# - 0.0-0.2: Maximum consistency
+# - 0.3-0.5: Balanced - consistent but natural explanations
+# - 0.6+: Creative, varied responses
+
+# System prompt configuration
+system_prompt_file = "system_prompt.md"
+system_prompt_tokens = 788 # IF this prompt changes this needs to be updated. 
+
+# -----------------------------------------------------------------------------
+# LLM Models
+# -----------------------------------------------------------------------------
+[[llm.llm_models]]
+name = "Claude Sonnet 4"
+id = "databricks-claude-sonnet-4.5"
+#[llm.llm_models]
+#"Claude Sonnet 4" = "databricks-claude-sonnet-4"
+#"Claude Sonnet 4.5" = "databricks-claude-sonnet-4-5"
+
+# -----------------------------------------------------------------------------
+# Feature Flags
+# -----------------------------------------------------------------------------
+[features]
+model_selection = false
+chat_history = true
+file_attachments = true
+
+# -----------------------------------------------------------------------------
+# Token Pricing
+# -----------------------------------------------------------------------------
+[token_pricing.default]
+input_cost_per_1k = 0.003
+output_cost_per_1k = 0.015
+description = "Default pricing for unspecified models"
+
+
+[token_pricing.models."databricks-claude-sonnet-4-5"]
+input_cost_per_1k = 0.003
+output_cost_per_1k = 0.015
+description = "Claude 4 Sonnet pricing"
+
+[token_pricing.models."databricks-claude-sonnet-4"]
+input_cost_per_1k = 0.003
+output_cost_per_1k = 0.015
+description = "Claude 4 Sonnet pricing"
+
+# [token_pricing.models."databricks-meta-llama-3-3-70b-instruct"]
+# input_cost_per_1k = 0.0005
+# output_cost_per_1k = 0.0015
+# description = "Llama 70b pricing"
+
+# -----------------------------------------------------------------------------
+# Title Generation
+# -----------------------------------------------------------------------------
+[title_generation]
+enabled = true
+model = "databricks-claude-3-7-sonnet"
+#model = "databricks-meta-llama-3-3-70b-instruct"  # Smaller, faster model for title generation
+max_tokens = 10
+temperature = 0.3
+title_generation_prompt_file = "title_generation_prompt.md"

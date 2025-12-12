@@ -1,7 +1,0 @@
-litellm
-jinja2
-pygments
-tqdm
-python-dotenv
-openai
-markdown
